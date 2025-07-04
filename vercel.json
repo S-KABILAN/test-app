@@ -15,8 +15,8 @@
   ],
   "routes": [
     {
-      "src": "/api/hello",
-      "dest": "/backend/api/hello.ts"
+      "src": "/api/(.*)",
+      "dest": "/backend/api/$1"
     },
     {
       "src": "/health",
