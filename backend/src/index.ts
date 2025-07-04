@@ -13,35 +13,10 @@ app.use(express.json());
 // Parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
-// CORS configuration for both development and production
-const corsOptions = {
-  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    const allowedOrigins = [
-      'http://localhost:5173', // Vite dev server
-      'http://127.0.0.1:5173', // Alternative localhost
-      'http://localhost:3000', // Alternative React port
-      'http://localhost:4173', // Vite preview
-      'https://test-app-two-sandy.vercel.app', // Your frontend URL
-      process.env.FRONTEND_URL // Production frontend URL
-    ].filter(Boolean); // Remove undefined values
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log('CORS blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'), false);
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200 // For legacy browser support
-};
 
 // Enable CORS
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(cors());
+app.options('*', cors());
 
 // Health check route
 app.get('/health', (req: Request, res: Response) => {
