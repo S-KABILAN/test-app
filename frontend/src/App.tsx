@@ -10,7 +10,8 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    fetch('/api/hello')
+    const apiUrl = import.meta.env.VITE_API_URL || '/api';
+    fetch(`${apiUrl}/hello`)
       .then(res => {
         if (!res.ok) {
           throw new Error('Network response was not ok')
