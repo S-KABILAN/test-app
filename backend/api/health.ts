@@ -10,6 +10,7 @@ export default function handler(req: Request, res: Response) {
     'http://127.0.0.1:5173',
     'http://localhost:3000',
     'http://localhost:4173',
+    'https://test-app-two-sandy.vercel.app', // Your frontend URL
     process.env.FRONTEND_URL
   ].filter(Boolean);
 

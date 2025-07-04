@@ -66,9 +66,16 @@ A simple full-stack application with React/Vite frontend and Express.js backend,
    - Vercel will automatically detect the `vercel.json` configuration
 
 2. **Set environment variables in Vercel:**
-   - Go to your project settings in Vercel
+
+   **For Backend:**
+   - Go to your backend project settings in Vercel
    - Add environment variables:
-     - `FRONTEND_URL`: Your Vercel app URL (e.g., `https://your-app.vercel.app`)
+     - `FRONTEND_URL`: Your frontend Vercel URL (`https://test-app-two-sandy.vercel.app`)
+
+   **For Frontend:**
+   - Go to your frontend project settings in Vercel
+   - Add environment variables:
+     - `VITE_API_URL`: Your backend Vercel URL (`https://test-app-f16v.vercel.app`)
 
 ### Option 2: Deploy Separately
 
