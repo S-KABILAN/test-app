@@ -6,14 +6,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// CORS configuration for Vercel deployment
+// CORS configuration for both development and production
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || [
-    'http://localhost:5173', // Your Vite frontend
-    'http://127.0.0.1:5173', // Alternative localhost
-    'http://localhost:3000', // Alternative React port
-    // Add your Vercel frontend URL here when deployed
-  ],
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:5173', // Vite dev server
+      'http://127.0.0.1:5173', // Alternative localhost
+      'http://localhost:3000', // Alternative React port
+      'http://localhost:4173', // Vite preview
+      process.env.FRONTEND_URL // Production frontend URL
+    ].filter(Boolean); // Remove undefined values
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'), false);
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200 // For legacy browser support
 };
