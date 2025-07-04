@@ -1,10 +1,17 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors'
+import cors from 'cors';
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Parse JSON request body
+app.use(express.json());
+
+// Parse urlencoded request body
+app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration for both development and production
 const corsOptions = {
@@ -17,6 +24,7 @@ const corsOptions = {
       'http://127.0.0.1:5173', // Alternative localhost
       'http://localhost:3000', // Alternative React port
       'http://localhost:4173', // Vite preview
+      'https://test-app-two-sandy.vercel.app', // Your frontend URL
       process.env.FRONTEND_URL // Production frontend URL
     ].filter(Boolean); // Remove undefined values
     
@@ -31,10 +39,9 @@ const corsOptions = {
   optionsSuccessStatus: 200 // For legacy browser support
 };
 
+// Enable CORS
 app.use(cors(corsOptions));
-
-// Middleware to parse JSON requests
-app.use(express.json());
+app.options('*', cors(corsOptions));
 
 // Health check route
 app.get('/health', (req: Request, res: Response) => {
